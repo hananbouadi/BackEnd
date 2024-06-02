@@ -8,11 +8,11 @@ filename = ''
 
 const mystorage = multer.diskStorage({
     destination: './uploads',
-    filename:(req, file,redirect)=>{
+    filename:(req, file,cb)=>{
         let date = Date.now()
 
         let f1 = date + "." + file.mimetype.split('/')[1]
-        redirect(null , f1)
+        cb(null , f1)
         filename = f1
     }
 })
@@ -26,9 +26,9 @@ router.post('/create',upload.any('image'),async (req,res)=>{
         reci.image = filename
         saverecipe = await reci.save()
         filename = ''
-        res.status(200).send(saverecipe)
+        res.status(200).send({ message: 'Recipe added successfully!', recipe: saverecipe })
     }catch(error){
-        res.status(400).send(error)
+        res.status(400).send({ message: 'Error adding recipe', error: error.message })
     }
 })
 
@@ -57,7 +57,7 @@ router.delete('/delete/:id',async(req,res)=>{
         id = req.params.id
         deletedrecipe = await Recipe.findByIdAndDelete({_id:id})
 
-        res.status(200).send(deletedrecipe)
+        res.status(200).send( {message: 'Recipe Removed!', recipe: deletedrecipe})
         
     }catch(error){
         res.status(400).send(error)

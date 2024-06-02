@@ -2,19 +2,19 @@ const mongoose = require('mongoose')
 
 const Recipe = mongoose.model('Recipe' ,{
     title: {
-        type:String
+        type:String,require:true
     },
     description: {
-        type:String
+        type:String,require:true
     },
     price: {
-        type:Number
+        type:Number,require:true
     },
     image: {
-        type:String
+        type:String,require:true
     },
     categorie: {
-        type:String
+        type:String,require:true
     }
 })
 module.exports = Recipe
